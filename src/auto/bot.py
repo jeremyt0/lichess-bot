@@ -148,57 +148,72 @@ class Bot(object):
             try:
                 # Get last move
                 move_list_parent = self.driver.find_element_by_tag_name('l4x')  # Does not exist if there are no moves i.e. white first
-                # print("Got move list parent", move_list_parent)
-                # move_list = move_list_parent.find_elements_by_css_selector("u8t")  # List of moves tag
-                last_move = move_list_parent.find_element_by_xpath("//u8t[contains(@class, 'a1t')]").text[-2:]
-                print("Last move:",last_move, "Self:", self.last_move_tracker)
+                last_move = move_list_parent.find_element_by_xpath("//u8t[contains(@class, 'a1t')]").text
+                print("Ultimate last move", last_move)
+                castle_move = None
+                pawn_promotion = None
+                new_pp_piece = None
 
-                # IF MATCH ENDED
-                try:
-                    results = move_list_parent.find_element_by_xpath("//div[contains(@class, 'result-wrap')]//p[contains(@class, 'status')]").text
-                    self.match_end = True
-                    print("Match has ended:", results)
-                    continue
-                except Exception as e:
-                    print("Match not ended yet -",e)
+                if cst_n := last_move.count('-'):  # O-O or O-O-O
+                    print("Castle")
+                    if cst_n == 1:
+                        castle_move = "e1g1" if self.main_board.turn == "white" else "e8g8"  # If white turn:   O-O: e1g1, if black: e8g8
+                    elif cst_n == 2:
+                        castle_move = "e1c1" if self.main_board.turn == "white" else "e8c8"  # If white turn: O-O-O: e1c1, if black: e8c8 
+                elif pawn_promotion := last_move.count('='):  # b8=Q
+                    print("Pawn promotion")
+                    new_pp_piece = last_move[-1]
+                    last_move = last_move[:-1]
+                elif any(x in last_move for x in ('+','#')):  # Bxf7+
+                    print("Check")
+                    if '#' in last_move:
+                        self.match_end = True
+                        break
+                    last_move = last_move.strip('+#')[-2:]
+                    
+                print("Last move:",last_move)
 
 
-                # If there has been a new move
-                if last_move != self.last_move_tracker:
-                    # print("Someone has moved!")
-                    self.last_move_tracker = last_move
 
-                    # Whose turn it is
-                    turn_text = self.driver.find_element_by_xpath("//div[contains(@class, 'rclock-turn__text')]").text
-                    # print(turn_text)
+                # Whose turn it is
+                turn_text = self.driver.find_element_by_xpath("//div[contains(@class, 'rclock-turn__text')]").text
+                print(turn_text)
 
-                    if turn_text == "Your turn":
-                        # Update board with their latest move
-                        self.main_board.update_turn()
-                        self.main_board.set_current_board_image()
+                if turn_text == "Your turn":
+                    # Update board with their latest move
+                    self.main_board.update_turn()
+                    self.main_board.set_current_board_image()
 
-                        opponent_move = self.main_board.to_engine_get_fr()
-                        # Update engine
-                        self.engine.move(opponent_move)
-
-                        # I finally make my move
-                        self.make_move()  # My move
-                        # Update board with my latest move
-                        self.main_board.update_turn()
-                        self.main_board.set_current_board_image()
-
-                    elif turn_text == "Waiting for opponent":
-                        print("Waiting for their move")
+                    # If move is castle then set opponent move as one generated previously
+                    if castle_move:
+                        opponent_move = castle_move
                     else:
-                        print("Error: User turn text is wrong.")
+                        opponent_move = self.main_board.to_engine_get_fr()
+                    
+                    if pawn_promotion:
+                        opponent_move += new_pp_piece
+                    # Update engine
+                    self.engine.move(opponent_move)
 
+                    # I finally make my move
+                    self.make_move()  # My move
+                    # Update board with my latest move
+                    self.main_board.update_turn()
+                    self.main_board.set_current_board_image()
+                    
+                    # Set last move
+                    # self.last_move_tracker = last_move
 
+                elif turn_text == "Waiting for opponent":
+                    pass
+                    # print("Waiting for their move")
                 else:
-                    print("No change yet")
-                
+                    print("Error: User turn text is wrong.")
+    
             except Exception as e:
                 print(e)
             
+            # End of while loop
 
 
 
