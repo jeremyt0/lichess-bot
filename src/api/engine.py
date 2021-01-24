@@ -2,6 +2,7 @@ from stockfish import Stockfish
 import os
 
 # from utils.resource import Resource
+from utils.logger import Logger
 
 class Engine(object):
     
@@ -32,7 +33,8 @@ class Engine(object):
     def move(self, move):
         self.list_moves.append(move)
         self.engine.set_position(self.list_moves)
-        self.print_board_visual()
+        # self.print_board_visual()
+        Logger.record_move(move)
 
     def print_board_visual(self):
         print(self.engine.get_board_visual())

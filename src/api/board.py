@@ -220,7 +220,6 @@ class Board(object):
         # Find contours
         contours, hierarchy = findContours(thresh, RETR_EXTERNAL, CHAIN_APPROX_NONE)
         for c in contours:
-            # TODO Error when move diagonal 1 square (same colour so large)
             # Check if size of found-contour is within size of a square
             (x, y, w, h) = boundingRect(c)
 

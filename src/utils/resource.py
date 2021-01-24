@@ -6,7 +6,7 @@ class Resource:
     @staticmethod
     def get_resource_dir():
         # resource_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0]))), "resources")
-        resource_dir = os.path.join("E:\\Jeee\\Documents\\Projects\\Python\\Chess\\lichess", "resources")
+        resource_dir = os.path.join("E:\\Jeee\\Documents\\Projects\\Python\\Chess\\lichess-bot", "resources")
         if not os.path.exists(resource_dir):
             os.mkdir(resource_dir)
         return resource_dir
@@ -20,8 +20,9 @@ class Resource:
 
     @staticmethod
     def get_images_dir():
-        src_dir = "E:\\Jeee\\Documents\\Projects\\Python\\Chess\\lichess"
+        src_dir = "E:\\Jeee\\Documents\\Projects\\Python\\Chess\\lichess-bot"
         images_dir = os.path.join(src_dir, "images")
         if not os.path.exists(images_dir):
             os.mkdir(images_dir)
         return images_dir
+
