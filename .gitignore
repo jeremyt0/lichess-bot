@@ -1,0 +1,8 @@
+logs/moves_log.log
+images/
+resources/chromedriver.exe
+src/api/__pycache__/board.cpython-38.pyc
+src/api/__pycache__/engine.cpython-38.pyc
+src/auto/__pycache__/bot.cpython-38.pyc
+src/utils/__pycache__/logger.cpython-38.pyc
+src/utils/__pycache__/resource.cpython-38.pyc
