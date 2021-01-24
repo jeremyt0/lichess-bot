@@ -2,7 +2,7 @@ import os
 import numpy as np
 from PIL import Image
 from io import BytesIO
-from cv2 import imread, inRange, threshold, boundingRect, findContours, moments, RETR_EXTERNAL, CHAIN_APPROX_NONE, cvtColor, COLOR_RGB2BGR
+from cv2 import imread, inRange, threshold, boundingRect, findContours, moments, RETR_EXTERNAL, CHAIN_APPROX_NONE, cvtColor, COLOR_RGB2BGR, erode
 
 from utils.resource import Resource
 
@@ -98,11 +98,18 @@ class Board(object):
     def to_engine_image_to_coords(self):
         img = self.image.copy()
 
+        # Get masks of recently changed squared
         light_mask = self.get_light_mask(img)  # Mask - light green
         dark_mask = self.get_dark_mask(img)  # Mask - dark green
 
-        light_squares = self.get_squares(light_mask, light_square=True)
-        dark_squares = self.get_squares(dark_mask, light_square=False)
+        # Erode masks to ensure not touching
+        kernel = np.ones((2,2), np.uint8)
+        light_mask_erode = erode(light_mask, kernel, iterations = 1)
+        dark_mask_erode = erode(dark_mask, kernel, iterations = 1)
+
+        # Get squares that have been recently changed
+        light_squares = self.get_squares(light_mask_erode, light_square=True)
+        dark_squares = self.get_squares(dark_mask_erode, light_square=False)
 
         # print("Light",light_squares)
         # print("Dark",dark_squares)
