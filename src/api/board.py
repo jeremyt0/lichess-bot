@@ -213,6 +213,13 @@ class Board(object):
         bgr = self.BGR_DARK
         if light_square:
             bgr = self.BGR_LIGHT
+
+        def within_threshold(x, orig, thresh=20):
+            lower, upper = orig-thresh, orig+thresh
+
+            if x > lower and x < upper:
+                return True
+            return False
         
         squares = {}
 
@@ -223,12 +230,8 @@ class Board(object):
             # Check if size of found-contour is within size of a square
             (x, y, w, h) = boundingRect(c)
 
-            def minmax_size(x, thresh=10):
-                if x > self.square_width-thresh and x < self.square_width+thresh:
-                    return True
-                return False
             # Skip contours that are too small/large
-            if not all(list(map(minmax_size, (w,h)))):
+            if not all(list(map(within_threshold, (w,h), (self.square_width, self.square_height) ))):
                 continue
 
             m = moments(c)
@@ -239,16 +242,8 @@ class Board(object):
             b,g,r  = self.image[(cY,cX)]
             pixel_val = (b,g,r)
 
-            def within_threshold(x, thresh=20):
-                lower, upper = x-thresh, x+thresh
-                index = pixel_val.index(x)
-                v = bgr[index]
-                if v > lower and v < upper:
-                    return True
-                return False
-
             # Check if each (b,g,r) within threshold
-            if all(list(map(within_threshold, pixel_val))):
+            if all(list(map(within_threshold, pixel_val, bgr))):
                 squares["old"] = (cY,cX)
             else:
                 squares["new"] = (cY,cX)
