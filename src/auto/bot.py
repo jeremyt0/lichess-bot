@@ -70,6 +70,11 @@ class Bot(object):
         print("BOT: Best move -", move)
         # Make move on GUI
 
+        pp_piece = None  # Pawn promotion piece
+        if len(move) == 5:
+            pp_piece = move[-1].lower()
+            move = move[:-1]
+
         # Get coordinates of rank/file (old_square, new_square)
         old_fr, new_fr = self.main_board.from_engine_split_fr(move) # Split string to old, new
         old_square = self.main_board.from_engine_convert(old_fr)    # Co-ordinates to click
@@ -79,6 +84,21 @@ class Bot(object):
         time.sleep(0.1)
         # Click new_square
         self.click_coords(new_square)
+
+        # Select new piece if pawn promoted
+        if pp_piece:
+            height, width = new_square
+            if pp_piece == "q":
+                pass  # Click again same square
+            elif pp_piece == "n":
+                height = height + self.main_board.square_height      # Click 1 square down
+            elif pp_piece == "r":
+                height = height + (self.main_board.square_height*2)  # Click 2 squares down
+            elif pp_piece == "b":
+                height = height + (self.main_board.square_height*3)  # Click 3 squares down
+            time.sleep(0.2)
+            self.click_coords( (height, width) )
+
 
         # Update engine with new move
         self.update_engine(move)
@@ -181,8 +201,8 @@ class Bot(object):
 
                 if turn_text == "Your turn":
                     # Update board with their latest move
-                    self.main_board.update_turn()
                     self.main_board.set_current_board_image()
+                    self.main_board.update_turn()
 
                     # If move is castle then set opponent move as one generated previously
                     if castle_move:
@@ -198,8 +218,8 @@ class Bot(object):
                     # I finally make my move
                     self.make_move()  # My move
                     # Update board with my latest move
-                    self.main_board.update_turn()
                     self.main_board.set_current_board_image()
+                    self.main_board.update_turn()
                     
                     # Set last move
                     # self.last_move_tracker = last_move
