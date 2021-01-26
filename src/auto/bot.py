@@ -182,6 +182,7 @@ class Bot(object):
                         castle_move = "e1c1" if self.main_board.turn == "white" else "e8c8"  # If white turn: O-O-O: e1c1, if black: e8c8 
                 elif pawn_promotion := last_move.count('='):  # b8=Q
                     print("Pawn promotion")
+                    last_move = last_move.strip('+=')  # If check with new piece
                     new_pp_piece = last_move[-1]
                     last_move = last_move[:-1]
                 elif any(x in last_move for x in ('+','#')):  # Bxf7+
@@ -213,7 +214,7 @@ class Bot(object):
                     if pawn_promotion:
                         opponent_move += new_pp_piece
                     # Update engine
-                    self.engine.move(opponent_move)
+                    self.update_engine(opponent_move)
 
                     # I finally make my move
                     self.make_move()  # My move
