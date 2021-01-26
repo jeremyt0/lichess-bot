@@ -134,18 +134,22 @@ class Board(object):
     def to_engine_coords_to_tuple(self, coords):
         # (200,300) -> (2,4)
         y, x = coords
-        file = rank = None
-        for f in self.file_boundaries:
-            if x > self.file_boundaries[f][0] and x < self.file_boundaries[f][1]:
-                file = f
-                break
-        for r in self.rank_boundaries:
-            if y > self.rank_boundaries[r][0] and y < self.rank_boundaries[r][1]:
-                rank = r
-                break
-                
-        return (file,rank)
+        def get_key_file(key):
+            lower, upper = self.file_boundaries[key]
+            if x > lower and x < upper:
+                return key
+            return False
+        def get_key_rank(key):
+            lower, upper = self.rank_boundaries[key]
+            if y > lower and y < upper:
+                return key
+            return False
+        
+        file = next(filter(get_key_file, self.file_boundaries))
+        rank = next(filter(get_key_rank, self.rank_boundaries))
 
+        return (file, rank)
+                
     # Convert tuple co-ordinate to filerank
     def to_engine_tuple_to_fr(self, fr_tuple):
         # e.g. (2,5) -> b5
