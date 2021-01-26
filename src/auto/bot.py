@@ -40,7 +40,7 @@ class Bot(object):
 
     def create_engine(self):
         self.engine = Engine()
-        self.engine.set_engine()  # Default = stockfish
+        self.engine.set_engine(skill_level=1)  # Default = stockfish
     
     def click_coords(self, coords):
         y, x = coords
@@ -72,7 +72,7 @@ class Bot(object):
 
         pp_piece = None  # Pawn promotion piece
         if len(move) == 5:
-            pp_piece = move[-1].lower()
+            pp_piece = move[-1]
             move = move[:-1]
 
         # Get coordinates of rank/file (old_square, new_square)
@@ -87,17 +87,18 @@ class Bot(object):
 
         # Select new piece if pawn promoted
         if pp_piece:
-            height, width = new_square
-            if pp_piece == "q":
+            width, height = new_square
+            if pp_piece.lower() == "q":
                 pass  # Click again same square
-            elif pp_piece == "n":
+            elif pp_piece.lower() == "n":
                 height = height + self.main_board.square_height      # Click 1 square down
-            elif pp_piece == "r":
+            elif pp_piece.lower() == "r":
                 height = height + (self.main_board.square_height*2)  # Click 2 squares down
-            elif pp_piece == "b":
+            elif pp_piece.lower() == "b":
                 height = height + (self.main_board.square_height*3)  # Click 3 squares down
             time.sleep(0.2)
             self.click_coords( (height, width) )
+            move += pp_piece
 
 
         # Update engine with new move
