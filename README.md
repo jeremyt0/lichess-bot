@@ -88,7 +88,7 @@ The last move is always highlighted with a green square.
 2. Generate a UCI chess notation string from the following conversions
    1. Co-ordinates: (350, 450) to (350, 350)
    
-   2. Tuples: (4, 2) to (4, 5)
+   2. Tuples: (4, 4) to (4, 5)
    
    3. File-Rank: D4 to D5 
    
