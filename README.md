@@ -67,7 +67,7 @@ The bot sits and waits until it is their turn.
 **If the opponent has finally made a move then the bot will use the following methods.**
 
 
-### 1. Identify last move
+### 1. Identify opponents last move
 Save a .png screenshot image of the chessboard to analyse.
 
 ![Original board image](/readme/original_1.PNG)
@@ -86,14 +86,14 @@ The last move is always highlighted with a green square.
    - New square has a piece
 
 2. Generate a UCI chess notation string from the following conversions
-   1. Co-ordinates: (350, 650) to (350, 450)
+   1. Co-ordinates: (350, 450) to (350, 350)
    
-   2. Tuples: (4, 2) to (4, 6)
+   2. Tuples: (4, 2) to (4, 5)
    
-   3. File-Rank: D2 to D4 
+   3. File-Rank: D4 to D5 
    
    Final output:
-   > d2d4
+   > d4d5
 
 ### 2. Figure out best move
 
@@ -103,22 +103,22 @@ We now have a UCI notation that the chess engine understands.
 
 2. The bot asks for the next best move and is replied with another chess notation.
 
-   > e7e5
+   > b8c6
 
 
 ### 3. Make the move
 
 1. The bot uses the same conversion methods in the board class but now in the opposite order.
-   1. File-Rank: E7 to E5 
+   1. File-Rank: B8 to C6 
    
-   2. Tuples: (5, 7) to (5, 5)
+   2. Tuples: (2, 7) to (3, 6)
    
-   3. Co-ordinates: (450, 550) to (450, 750)
+   3. Co-ordinates: (150, 50) to (250, 250)
    
    Final output:
-   > Current square: (450, 550) 
+   > Current square: (150, 50) 
 
-   > New Square: (450, 750)
+   > New Square: (250, 250)
 
 2. The bot clicks on the browser given the two square co-ordinates.
     ```py
@@ -133,8 +133,6 @@ We now have a UCI notation that the chess engine understands.
 
 ## Specifics **_(TODO)_**
 
-### Understanding logic of old square and new square
-
 ### OpenCV contours and central points of bounding box
 
 ### Castling
@@ -146,8 +144,26 @@ We now have a UCI notation that the chess engine understands.
 ## Debugging and solving encountered problems **_(TODO)_**
 
 ### Diagonal mask
-- Same colour green
-- Erode outline
+A problem I encountered was if the piece moved 1 square diagonal, the highlighted squares would be the same green and also connected via the corner.
+
+This meant that when detecting individual objects, the 2 squares would be joined as 1 object. Not ideal.
+
+   Original board | Original mask | Original bounding box
+   :--------------:|:--------------:
+   ![Image of original board](/readme/diagonal_solution/original_1.PNG) | ![Image of original board mask](/readme/diagonal_solution/mask_1.PNG) |  ![Image of original bounding box](/readme/diagonal_solution/bounding_box_1.PNG)
+
+#### Solution
+To correctly identify each square as an object, I had to separate them.
+
+The most simple method I had in mind was to:
+1. Erode outline of mask
+2. Detect all objects
+
+##### Result
+   Original board | Eroded mask | Eroded bounding box
+   :--------------:|:--------------:
+   ![Image of original board](/readme/diagonal_solution/original_1.PNG) | ![Image of eroded board mask](/readme/diagonal_solution/mask_1_eroded.PNG) | ![Image of eroded bounding box](/readme/diagonal_solution/bounding_box_1_erode.PNG)
+
 
 ## Improvements and additional features **_(TODO)_**
 #### Play against online players
