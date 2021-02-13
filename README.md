@@ -70,11 +70,21 @@ The bot sits and waits until it is their turn.
 ### 1. Identify last move
 Save a .png screenshot image of the chessboard to analyse.
 
-1. Create a mask of all green objects. **_(TODO)_**
-    1. Example image
-    2. Example mask
+![Original board image](/readme/original_1.PNG)
 
-2. Detect all squares and get co-ordinates of old square and new square **_(TODO)_**
+The last move is always highlighted with a green square.
+
+1. Create a mask of all green objects.
+    1. Dark green mask
+       ![Dark mask example 1](/readme/dark_mask_1.PNG)
+    
+    2. Light green mask
+       ![Light mask example 1](/readme/light_mask_1.PNG)
+
+
+2. Detect all squares and get centre co-ordinates of old square and new square
+   - Old square is empty
+   - New square has a piece
 
 2. Generate a UCI chess notation string from the following conversions
    1. Co-ordinates: (350, 650) to (350, 450)
@@ -112,6 +122,11 @@ We now have a UCI notation that the chess engine understands.
    > New Square: (450, 750)
 
 2. The bot clicks on the browser given the two square co-ordinates.
+    ```py
+       self.click_coords(old_square)
+       time.sleep(0.1)  # Wait 0.1 seconds
+       self.click_coords(new_square)
+    ```
 
 3. It updates the engine after it has moved.
 
