@@ -131,17 +131,9 @@ We now have a UCI notation that the chess engine understands.
 
 *It now delves into a light slumber awaiting the opponents next move...*
 
-## Specifics **_(TODO)_**
 
-### OpenCV contours and central points of bounding box
 
-### Castling
-
-### Pawn Promotion
-
-### Checks
-
-## Debugging and solving encountered problems **_(TODO)_**
+## Debugging and solving encountered problems
 
 ### Diagonal mask
 A problem I encountered was if the piece moved 1 square diagonal, the highlighted squares would be the same green and also connected via the corner.
@@ -165,16 +157,18 @@ The most simple method I had in mind was to:
    ![Image of original board](/readme/diagonal_solution/original_1.PNG) | ![Image of eroded board mask](/readme/diagonal_solution/mask_1_eroded.PNG) | ![Image of eroded bounding box](/readme/diagonal_solution/bounding_box_1_erode.PNG)
 
 
-## Improvements and additional features **_(TODO)_**
-#### Play against online players
-#### Play against computer
-#### Simple UI to initiate program
-- Update settings
-- Enter URL
-- Play against player or computer
-#### Additional settings
-- Live update of Stockfish AI level
-- Manual move
+## Improvements and additional features
+- #### Play against computer
+- #### Play against online players
+    - Add time checks 
+- #### Simple UI to initiate program
+    - Update settings
+    - Enter URL
+    - Opponent options (player or computer)
+- #### Additional settings
+    - Live update of Stockfish AI level
+    - Manual move
+    - Multiple bots running simultaneously
 - Multiple bots running simultaneously
 
 ## Libaries and tools
