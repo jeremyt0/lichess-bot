@@ -75,11 +75,8 @@ Save a .png screenshot image of the chessboard to analyse.
 The last move is always highlighted with a green square.
 
 1. Create a mask of all green objects.
-    1. Dark green mask
-       ![Dark mask example 1](/readme/dark_mask_1.PNG)
-    
-    2. Light green mask
-       ![Light mask example 1](/readme/light_mask_1.PNG)
+   Dark green mask | Light green mask
+   ![Dark mask example 1](/readme/dark_mask_1.PNG) | ![Light mask example 1](/readme/light_mask_1.PNG)
 
 
 2. Detect all squares and get centre co-ordinates of old square and new square
