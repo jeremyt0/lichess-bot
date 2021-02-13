@@ -111,7 +111,7 @@ We now have a UCI notation that the chess engine understands.
 1. The bot uses the same conversion methods in the board class but now in the opposite order.
    1. File-Rank: B8 to C6 
    
-   2. Tuples: (2, 7) to (3, 6)
+   2. Tuples: (2, 8) to (3, 6)
    
    3. Co-ordinates: (150, 50) to (250, 250)
    
