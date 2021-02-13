@@ -150,7 +150,7 @@ This meant that when detecting individual objects, the 2 squares would be joined
 
    Original board | Original mask | Original bounding box
    
-   :--------------:|:--------------:
+   :--------------:|:--------------:|:--------------:
    
    ![Image of original board](/readme/diagonal_solution/original_1.PNG) | ![Image of original board mask](/readme/diagonal_solution/mask_1.PNG) |  ![Image of original bounding box](/readme/diagonal_solution/bounding_box_1.PNG)
 
@@ -164,7 +164,7 @@ The most simple method I had in mind was to:
 ##### Result
    Original board | Eroded mask | Eroded bounding box
    
-   :--------------:|:--------------:
+   :--------------:|:--------------:|:--------------:
    
    ![Image of original board](/readme/diagonal_solution/original_1.PNG) | ![Image of eroded board mask](/readme/diagonal_solution/mask_1_eroded.PNG) | ![Image of eroded bounding box](/readme/diagonal_solution/bounding_box_1_erode.PNG)
 
