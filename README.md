@@ -12,7 +12,7 @@ It uses computer vision from OpenCV libraries to detect new moves and updates a 
 If your friend invites you to a chess game, they will send you a URL to go to.
 When you click the URL, you will be redirected to a game that is set up.
 
-![invite screen](readme/challengeafriendscreen.png)
+![invite screen](readme/challengeafriendscreen.PNG)
 
 > Example URL: https://lichess.org/PeSBs5Pz
 
