@@ -75,7 +75,9 @@ Save a .png screenshot image of the chessboard to analyse.
 The last move is always highlighted with a green square.
 
 1. Create a mask of all green objects.
+
    Dark green mask | Light green mask
+   :--------------:|:--------------:
    ![Dark mask example 1](/readme/dark_mask_1.PNG) | ![Light mask example 1](/readme/light_mask_1.PNG)
 
 
